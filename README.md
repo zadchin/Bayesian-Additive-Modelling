@@ -2,6 +2,8 @@
 
 This code repository contains code that are written for the final project for Statistics 220: Bayesian Data Analysis, a class both authors are enrolled in under the instruction of Professor Jun Liu and Teaching Fellow Buyu Lin at Harvard University.
 
+[![](https://tokei.rs/b1/github/XAMPPRocky/tokei)](https://github.com/XAMPPRocky/tokei)
+
 ## Code Repository Structure
 
 **Code Files**
