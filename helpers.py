@@ -7,7 +7,7 @@ from scipy.optimize import minimize
 from sklearn.linear_model import LinearRegression
 from pygam import LinearGAM, s
 from sklearn.ensemble import RandomForestRegressor
-from sklearn.metrics import mean_squared_error, mean_absolute_error
+from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 import gammy
 from gammy.arraymapper import x
 
@@ -104,10 +104,20 @@ def fit_difference_priors(xobs, yobs, xfit, ytrue):
         mean_squared_error(ytrue, yfit_periodic),
         mean_squared_error(ytrue, yfit_both)
     ],
+    'Root Mean Squared Error': [
+        mean_squared_error(ytrue, yfit_smooth, squared=False),
+        mean_squared_error(ytrue, yfit_periodic, squared=False),
+        mean_squared_error(ytrue, yfit_both, squared=False)
+    ],
     'Mean Absolute Error': [
         mean_absolute_error(ytrue, yfit_smooth),
         mean_absolute_error(ytrue, yfit_periodic),
         mean_absolute_error(ytrue, yfit_both)
+    ],
+    'R2 Score': [
+        r2_score(ytrue, yfit_smooth),
+        r2_score(ytrue, yfit_periodic),
+        r2_score(ytrue, yfit_both)
     ]
     }
 
@@ -143,8 +153,14 @@ def fit_linear_regression(xobs, yobs, xfit, ytrue):
     'Mean Squared Error': [
         mse
     ],
+    'Root Mean Squared Error': [
+        mean_squared_error(ytrue, yfit, squared=False)
+    ],
     'Mean Absolute Error': [
         mean_absolute_error(ytrue, yfit)
+    ],
+    'R2 Score': [
+        r2_score(ytrue, yfit)
     ]
     }
     
@@ -176,8 +192,14 @@ def fit_rf_regression(xobs, yobs, xfit, ytrue):
     'Mean Squared Error': [
         mse_rf
     ],
+    'Root Mean Squared Error': [
+        mean_squared_error(ytrue, yfit_rf, squared=False)
+    ],
     'Mean Absolute Error': [
         mean_absolute_error(ytrue, yfit_rf)
+    ],
+    'R2 Score': [
+        r2_score(ytrue, yfit_rf)
     ]
     }
     
@@ -210,8 +232,14 @@ def fit_gam_regression(xobs, yobs, xfit, ytrue):
     'Mean Squared Error': [
         mse_gam
     ],
+    'Root Mean Squared Error': [
+        mean_squared_error(ytrue, yfit_gam, squared=False)
+    ],
     'Mean Absolute Error': [
         mean_absolute_error(ytrue, yfit_gam)
+    ],
+    'R2 Score': [
+        r2_score(ytrue, yfit_gam)
     ]
     }
     
@@ -328,10 +356,20 @@ def fit_gp_gammy(xobs, yobs, xfit, ytrue):
         mean_squared_error(ytrue, rat_quad_result),
         mean_squared_error(ytrue, orn_uhl_result)
     ],
+    'Root Mean Squared Error': [
+        mean_squared_error(ytrue, exp_square_result, squared=False),
+        mean_squared_error(ytrue, rat_quad_result, squared=False),
+        mean_squared_error(ytrue, orn_uhl_result, squared=False)
+    ],
     'Mean Absolute Error': [
         mean_absolute_error(ytrue, exp_square_result),
         mean_absolute_error(ytrue, rat_quad_result),
         mean_absolute_error(ytrue, orn_uhl_result)
+    ],
+    'R2 Score': [
+        r2_score(ytrue, exp_square_result),
+        r2_score(ytrue, rat_quad_result),
+        r2_score(ytrue, orn_uhl_result)
     ]
     }
 
@@ -421,10 +459,20 @@ def fit_gp_gammy_univariate(X,y):
         mean_squared_error(y, rat_quad_result),
         mean_squared_error(y, orn_uhl_result)
     ],
+    'Root Mean Squared Error': [
+        mean_squared_error(y, exp_square_result, squared=False),
+        mean_squared_error(y, rat_quad_result, squared=False),
+        mean_squared_error(y, orn_uhl_result, squared=False)
+    ],
     'Mean Absolute Error': [
         mean_absolute_error(y, exp_square_result),
         mean_absolute_error(y, rat_quad_result),
         mean_absolute_error(y, orn_uhl_result)
+    ],
+    'R2 Score': [
+        r2_score(y, exp_square_result),
+        r2_score(y, rat_quad_result),
+        r2_score(y, orn_uhl_result)
     ]
     }
 
