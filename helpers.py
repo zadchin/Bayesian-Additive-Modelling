@@ -70,21 +70,20 @@ def fit_difference_priors(xobs, yobs, xfit, ytrue):
     axs[0].set_xlabel('x')
     axs[0].set_ylabel('y')
     axs[0].set_title('Smooth', fontsize=10)
-    axs[0].axis("off")
 
     axs[1].plot(xobs, yobs, 'k.')
     axs[1].plot(xfit, ytrue, 'b--')
     axs[1].plot(xfit,yfit_periodic , 'r-')
     axs[1].set_xlabel('x')
     axs[1].set_title('Smooth + Periodic', fontsize=10)
-    axs[1].axis("off")
+
 
     axs[2].plot(xobs, yobs, 'k.')
     axs[2].plot(xfit, ytrue, 'b--')
     axs[2].plot(xfit, yfit_both, 'r-')
     axs[2].set_xlabel('x')
     axs[2].set_title('Smooth + Periodic + Symmetric', fontsize=10)
-    axs[2].axis("off")
+
 
     fig.legend(
         loc="upper center",
@@ -143,7 +142,7 @@ def fit_linear_regression(xobs, yobs, xfit, ytrue):
     plt.plot(xobs, yobs, 'k.')
     plt.plot(xfit, ytrue, 'b--')
     plt.plot(xfit, yfit, 'r-')
-    plt.legend(['data', 'truth', 'fit'])
+    plt.legend(['Data', 'Truth', 'Fit'])
 
     plt.xlabel('x')
     plt.title('Linear Regression', fontsize=10)
@@ -183,7 +182,7 @@ def fit_rf_regression(xobs, yobs, xfit, ytrue):
     plt.plot(xobs, yobs, 'k.')
     plt.plot(xfit, ytrue, 'b--')
     plt.plot(xfit, yfit_rf, 'r-')
-    plt.legend(['data', 'truth', 'Random Forest'])
+    plt.legend(['Data', 'Truth', 'Random Forest'])
     plt.xlabel('x')
     plt.title('Random Forest Regression', fontsize=10)
 
@@ -223,12 +222,12 @@ def fit_gam_regression(xobs, yobs, xfit, ytrue):
     plt.plot(xobs, yobs, 'k.')
     plt.plot(xfit, ytrue, 'b--')
     plt.plot(xfit, yfit_gam, 'r-')
-    plt.legend(['data', 'truth', 'GAM'])
+    plt.legend(['Data', 'Truth', 'GAM'])
     plt.xlabel('x')
-    plt.title('GAM Regression', fontsize=10)
+    plt.title('Frequentist GAM', fontsize=10)
 
     performance = {
-    'Model': ['Frequentist Penalized Regression with B-splines'],
+    'Model': ['Frequentist GAM'],
     'Mean Squared Error': [
         mse_gam
     ],
@@ -324,7 +323,7 @@ def fit_gp_gammy(xobs, yobs, xfit, ytrue):
     axs[0].plot(xfit, exp_square_result, 'r-', label='Fit')
     axs[0].set_xlabel('x')
     axs[0].set_ylabel('y')
-    axs[0].set_title('Exponential Squared', fontsize=10)
+    axs[0].set_title('Squared Exponential', fontsize=10)
 
     axs[1].plot(xobs, yobs, 'k.')
     axs[1].plot(xfit, ytrue, 'b--')
@@ -427,7 +426,7 @@ def fit_gp_gammy_univariate(X,y):
     axs[0].plot(xfit, exp_square_result, 'r-', label='Fit')
     axs[0].set_xlabel('x')
     axs[0].set_ylabel('y')
-    axs[0].set_title('Exponential Squared', fontsize=10)
+    axs[0].set_title('Squared Exponential', fontsize=10)
 
     axs[1].plot(xobs, yobs, 'k.')
     axs[1].plot(xfit, ytrue, 'b--')

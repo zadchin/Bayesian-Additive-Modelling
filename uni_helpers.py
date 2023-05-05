@@ -2,6 +2,7 @@ import blinpy as bp
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib.lines import Line2D
 from scipy import sparse
 from scipy.optimize import minimize
 from sklearn.linear_model import LinearRegression
@@ -13,20 +14,20 @@ from gammy.arraymapper import x
 from sklearn.model_selection import KFold
 
 def fit_linear_regression(X, y, n_splits=5):
+    
+    # Create a figure to plot the results
+    colors = ['b', 'g', 'r', 'c', 'm']
+    kf = KFold(n_splits=n_splits)
 
-    # Set up K-Fold cross-validator
-    kf = KFold(n_splits=n_splits, shuffle=True, random_state=42)
+    fig, ax = plt.subplots(figsize=(8, 4))
 
-    # Initialize lists to store performance metrics for each fold
+    # Initialize lists to store performance metrics
     mse_list = []
     rmse_list = []
     mae_list = []
     r2_list = []
 
-    # Create a figure to plot the results
-    fig, axs = plt.subplots(n_splits, 1, figsize=(8, 4 * n_splits))
-
-    # Iterate through each fold
+# Iterate through each fold
     for idx, (train_index, test_index) in enumerate(kf.split(X)):
         X_train, _ = X[train_index], X[test_index]
         y_train, _ = y.iloc[train_index], y.iloc[test_index]
@@ -50,11 +51,20 @@ def fit_linear_regression(X, y, n_splits=5):
         r2_list.append(r2)
 
         # Plot the results for the current fold
-        axs[idx].plot(X_train, y_train, 'b.', label='Data')
-        axs[idx].plot(X_train, y_fit, 'r-', label='Fit')
-        axs[idx].set_xlabel('x')
-        axs[idx].set_title(f'Linear Regression (Fold {idx + 1})', fontsize=10)
+        ax.plot(X_train, y_train, '.', color=colors[idx], alpha=0.5)
+        ax.plot(X_train, y_fit, '-', color=colors[idx], alpha=0.5, label=f'Fold {idx + 1}')
 
+    ax.set_xlabel('x')
+    ax.set_ylabel('y')
+    ax.set_title('Linear Regression')
+    fig.legend(
+        loc="upper center",
+        bbox_to_anchor=(0.5, 0),
+        bbox_transform=fig.transFigure,
+        fancybox=True,
+        shadow=True,
+        ncol=5,
+    )
     plt.tight_layout()
 
     # Calculate the average performance metrics across all folds
@@ -82,7 +92,8 @@ def fit_random_forest(X, y, n_splits=5):
     r2_list = []
 
     # Create a figure to plot the results
-    fig, axs = plt.subplots(n_splits, 1, figsize=(8, 4 * n_splits))
+    colors = ['b', 'g', 'r', 'c', 'm']
+    fig, ax = plt.subplots(figsize=(8, 4))
 
     # Iterate through each fold
     for idx, (train_index, test_index) in enumerate(kf.split(X)):
@@ -107,12 +118,21 @@ def fit_random_forest(X, y, n_splits=5):
         mae_list.append(mae)
         r2_list.append(r2)
 
-        # Plot the results for the current fold)
-        axs[idx].plot(X_train, y_train, 'b.', label='Data')
-        axs[idx].plot(X_train, y_fit, 'r-', label='Fit')
-        axs[idx].set_xlabel('x')
-        axs[idx].set_title(f'Random Forest (Fold {idx + 1})', fontsize=10)
+        # Plot the results for the current fold
+        ax.plot(X_train, y_train, '.', color=colors[idx], alpha=0.5)
+        ax.plot(X_train, y_fit, '-', color=colors[idx], alpha=0.5, label=f'Fold {idx + 1}')
 
+    ax.set_xlabel('x')
+    ax.set_ylabel('y')
+    ax.set_title('Random Forest')
+    fig.legend(
+        loc="upper center",
+        bbox_to_anchor=(0.5, 0),
+        bbox_transform=fig.transFigure,
+        fancybox=True,
+        shadow=True,
+        ncol=5,
+    )
     plt.tight_layout()
 
     # Calculate the average performance metrics across all folds
@@ -139,7 +159,8 @@ def fit_gam_regression(X, y, n_splits=5):
     r2_list = []
 
     # Create a figure to plot the results
-    fig, axs = plt.subplots(n_splits, 1, figsize=(8, 4 * n_splits))
+    colors = ['b', 'g', 'r', 'c', 'm']
+    fig, ax = plt.subplots(figsize=(8, 4))
 
     # Iterate through each fold
     for idx, (train_index, test_index) in enumerate(kf.split(X)):
@@ -166,12 +187,23 @@ def fit_gam_regression(X, y, n_splits=5):
         r2_list.append(r2)
 
         # Plot the results for the current fold)
-        axs[idx].plot(X_train, y_train, 'b.', label='Data')
-        axs[idx].plot(X_train, yfit_gam, 'r-', label='Fit')
-        axs[idx].set_xlabel('x')
-        axs[idx].set_title(f'Frequentist Penalized Regression (Fold {idx + 1})', fontsize=10)
-        
+        # Plot the results for the current fold
+        ax.plot(X_train, y_train, '.', color=colors[idx], alpha=0.5)
+        ax.plot(X_train, yfit_gam, '-', color=colors[idx], alpha=0.5, label=f'Fold {idx + 1}')
+
+    ax.set_xlabel('x')
+    ax.set_ylabel('y')
+    ax.set_title('Frequentist GAM')
+    fig.legend(
+        loc="upper center",
+        bbox_to_anchor=(0.5, 0),
+        bbox_transform=fig.transFigure,
+        fancybox=True,
+        shadow=True,
+        ncol=5,
+    )
     plt.tight_layout()
+        
 
     # Calculate the average performance metrics across all folds
     performance = {
@@ -197,7 +229,9 @@ def fit_gp_gammy_univariate(X, y, n_splits=5):
     mae_list = {'exp square': [], 'rat quad': [], 'orn uhl': []}
     r2_list = {'exp square': [], 'rat quad': [], 'orn uhl': []}
 
-    fig, axs = plt.subplots(n_splits, 3, figsize=(12, 5 * n_splits))
+    fig, axs = plt.subplots(1, 3, figsize=(15, 5))
+    colors = ['b', 'g', 'r', 'c', 'm']
+    legend_elements = []
 
     # Iterate through each fold
     for idx, (train_index, test_index) in enumerate(kf.split(X)):
@@ -255,22 +289,37 @@ def fit_gp_gammy_univariate(X, y, n_splits=5):
         r2_list['rat quad'].append(r2_score(y_train, rat_quad_result))
         r2_list['orn uhl'].append(r2_score(y_train, orn_uhl_result))
 
-        axs[idx, 0].plot(X_train, y_train, 'b.', label='Data')
-        axs[idx, 0].plot(X_train, exp_square_result, 'r-', label='Fit')
-        axs[idx, 0].set_xlabel('x')
-        axs[idx, 0].set_ylabel('y')
-        axs[idx, 0].set_title(f'Exponential Squared (Fold {idx + 1})', fontsize=8)
+        model_names = ['Square Exponential', 'Rational Quadratic', 'Ornstein-Uhlenbeck']
+        model_short_names = ['exp square', 'rat quad', 'orn uhl']
 
-        axs[idx, 1].plot(X_train, y_train, 'b.')
-        axs[idx, 1].plot(X_train, rat_quad_result, 'r-')
-        axs[idx, 1].set_xlabel('x')
-        axs[idx, 1].set_title(f'Rational Quadratic (Fold {idx + 1})', fontsize=8)
+        # result() append exp_square_result, rat_quad_result, orn_uhl_result
+        results = {
+            'exp square': exp_square_result,
+            'rat quad': rat_quad_result,
+            'orn uhl': orn_uhl_result
+        }
 
-        axs[idx, 2].plot(X_train, y_train, 'b.')
-        axs[idx, 2].plot(X_train, orn_uhl_result, 'r-')
-        axs[idx, 2].set_xlabel('x')
-        axs[idx, 2].set_title(f'Ornstein-Uhlenbeck (Fold {idx + 1})', fontsize=8)
+        legend_elements.append(Line2D([0], [0], color=colors[idx], lw=2, label=f'Fold {idx + 1}'))
 
+        # Loop through each model and plot the results
+        for i, (model_name, model_short_name) in enumerate(zip(model_names, model_short_names)):
+            axs[i].plot(X_train, y_train, '.', color=colors[idx], alpha=0.5)
+            axs[i].plot(X_train, results[model_short_name], '-', color=colors[idx], alpha=0.5)
+            axs[i].set_xlabel('x')
+            axs[i].set_title(f'{model_name}', fontsize=10)
+            if i == 0:
+                axs[i].set_ylabel('y')
+
+    # Add an overall legend
+    fig.legend(handles=legend_elements,
+            loc="upper center",
+            bbox_to_anchor=(0.5, 0),
+            bbox_transform=fig.transFigure,
+            fancybox=True,
+            shadow=True,
+            ncol=5)
+    plt.tight_layout(rect=[0, 0, 1, 0.95]) 
+       
     # Calculate the average performance metrics across all folds
     performance = {
         'Model': ['exp square', 'rat quad', 'orn uhl'],
@@ -294,8 +343,9 @@ def fit_difference_priors(X, y, n_splits=5):
     mae_list = {'smooth': [], 'periodic': [], 'both': []}
     r2_list = {'smooth': [], 'periodic': [], 'both': []}
 
-    # Create a figure to plot the results
-    fig, axs = plt.subplots(n_splits, 3, figsize=(9, 3 * n_splits))
+    fig, axs = plt.subplots(1, 3, figsize=(15, 5))
+    colors = ['b', 'g', 'r', 'c', 'm']
+    legend_elements = []
 
     # Iterate through each fold
     for idx, (train_index, test_index) in enumerate(kf.split(X)):
@@ -357,21 +407,35 @@ def fit_difference_priors(X, y, n_splits=5):
         r2_list['periodic'].append(r2_score(y_train, periodic_result))
         r2_list['both'].append(r2_score(y_train, both_result))
 
-        # Plot the results
-        axs[idx, 0].plot(X_train, y_train, 'b.', label='Data')
-        axs[idx, 0].plot(X_train, smooth_result, 'r-', label='Fit')
-        axs[idx, 0].set_title(f'Smooth (Fold {idx + 1})', fontsize=8)
+        model_names = ['Smooth', 'Smooth + Periodic', 'Smooth + Periodic + Symmetric']
+        model_short_names = ['smooth', 'periodic', 'both']
 
-        axs[idx, 1].plot(X_train, y_train, 'b.', label='Data')
-        axs[idx, 1].plot(X_train, periodic_result, 'r-', label='Fit')
-        axs[idx, 1].set_title(f'Smooth + Periodic (Fold {idx + 1})', fontsize=8)
+        results = {
+            'smooth': smooth_result,
+            'periodic': periodic_result,
+            'both': both_result
+        }
 
-        axs[idx, 2].plot(X_train, y_train, 'b.', label='Data')
-        axs[idx, 2].plot(X_train, both_result, 'r-', label='Fit')
-        axs[idx, 2].set_title(f'Smooth + Periodic + Symmetric (Fold {idx + 1})', fontsize=8)
+        legend_elements.append(Line2D([0], [0], color=colors[idx], lw=2, label=f'Fold {idx + 1}'))
 
+        # Loop through each model and plot the results
+        for i, (model_name, model_short_name) in enumerate(zip(model_names, model_short_names)):
+            axs[i].plot(X_train, y_train, '.', color=colors[idx], alpha=0.5)
+            axs[i].plot(X_train, results[model_short_name], '-', color=colors[idx], alpha=0.5)
+            axs[i].set_xlabel('x')
+            axs[i].set_title(f'{model_name}', fontsize=10)
+            if i == 0:
+                axs[i].set_ylabel('y')
 
-    plt.tight_layout()
+    # Add an overall legend
+    fig.legend(handles=legend_elements,
+            loc="upper center",
+            bbox_to_anchor=(0.5, 0),
+            bbox_transform=fig.transFigure,
+            fancybox=True,
+            shadow=True,
+            ncol=5)
+    plt.tight_layout(rect=[0, 0, 1, 0.95]) 
 
     # Performance
     performance = {
