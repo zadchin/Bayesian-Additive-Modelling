@@ -193,7 +193,7 @@ def fit_gam_regression(X, y, n_splits=5):
 
     ax.set_xlabel('x')
     ax.set_ylabel('y')
-    ax.set_title('Frequentist GAM')
+    ax.set_title('Frequentist AM')
     fig.legend(
         loc="upper center",
         bbox_to_anchor=(0.5, 0),
@@ -207,7 +207,7 @@ def fit_gam_regression(X, y, n_splits=5):
 
     # Calculate the average performance metrics across all folds
     performance = {
-        'Model': ['Frequentist Penalized Regression'],
+        'Model': ['Frequentist AM'],
         'Mean Squared Error': [np.mean(mse_list)],
         'Root Mean Squared Error': [np.mean(rmse_list)],
         'Mean Absolute Error': [np.mean(mae_list)],
@@ -306,7 +306,7 @@ def fit_gp_gammy_univariate(X, y, n_splits=5):
             axs[i].plot(X_train, y_train, '.', color=colors[idx], alpha=0.5)
             axs[i].plot(X_train, results[model_short_name], '-', color=colors[idx], alpha=0.5)
             axs[i].set_xlabel('x')
-            axs[i].set_title(f'{model_name}', fontsize=10)
+            axs[i].set_title(f'{model_name}', fontsize=20)
             if i == 0:
                 axs[i].set_ylabel('y')
 
@@ -317,7 +317,8 @@ def fit_gp_gammy_univariate(X, y, n_splits=5):
             bbox_transform=fig.transFigure,
             fancybox=True,
             shadow=True,
-            ncol=5)
+            ncol=5,
+            fontsize=20)
     plt.tight_layout(rect=[0, 0, 1, 0.95]) 
        
     # Calculate the average performance metrics across all folds
@@ -423,7 +424,7 @@ def fit_difference_priors(X, y, n_splits=5):
             axs[i].plot(X_train, y_train, '.', color=colors[idx], alpha=0.5)
             axs[i].plot(X_train, results[model_short_name], '-', color=colors[idx], alpha=0.5)
             axs[i].set_xlabel('x')
-            axs[i].set_title(f'{model_name}', fontsize=10)
+            axs[i].set_title(f'{model_name}', fontsize=20)
             if i == 0:
                 axs[i].set_ylabel('y')
 
@@ -434,7 +435,8 @@ def fit_difference_priors(X, y, n_splits=5):
             bbox_transform=fig.transFigure,
             fancybox=True,
             shadow=True,
-            ncol=5)
+            ncol=5,
+            fontsize=20)
     plt.tight_layout(rect=[0, 0, 1, 0.95]) 
 
     # Performance

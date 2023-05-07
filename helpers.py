@@ -222,12 +222,12 @@ def fit_gam_regression(xobs, yobs, xfit, ytrue):
     plt.plot(xobs, yobs, 'k.')
     plt.plot(xfit, ytrue, 'b--')
     plt.plot(xfit, yfit_gam, 'r-')
-    plt.legend(['Data', 'Truth', 'GAM'])
+    plt.legend(['Data', 'Truth', 'AM'])
     plt.xlabel('x')
-    plt.title('Frequentist GAM', fontsize=10)
+    plt.title('Frequentist AM', fontsize=10)
 
     performance = {
-    'Model': ['Frequentist GAM'],
+    'Model': ['Frequentist AM'],
     'Mean Squared Error': [
         mse_gam
     ],
