@@ -80,6 +80,6 @@ We applied four different statistics, namely the mean squared error (MSE), the r
 
 # Link to Paper & Slides
 
-The paper can be accessed at under docs folder at [here](docs/Stat220FinalProject.pdf)
+The paper can be accessed at under docs folder at [here](docs/Stat220FinalProject.pdf).
 
-The slides can be accessed at under docs folder at [here](docs/Stat220FinalPresentation.pdf)
+The slides can be accessed at under docs folder at [here](docs/Stat220FinalPresentation.pdf).
